@@ -1,0 +1,7 @@
+github.com/SasukeBo/log v0.0.0-20191108020746-8ce4725f9439 h1:BBynWvyz0l3atA+eEzneHYJDXzz4bQh75qatutsJLo8=
+github.com/SasukeBo/log v0.0.0-20191108020746-8ce4725f9439/go.mod h1:i3RpY6/7NN/8ZkflWgmZweM0DqxyEr9sOhuxUV8V8T8=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/gookit/color.v1 v1.1.6 h1:5fB10p6AUFjhd2ayq9JgmJWr9WlTrguFdw3qlYtKNHk=
+gopkg.in/gookit/color.v1 v1.1.6/go.mod h1:IcEkFGaveVShJ+j8ew+jwe9epHyGpJ9IrptHmW3laVY=
+gopkg.in/yaml.v2 v2.2.7 h1:VUgggvou5XRW9mHwD/yXxIYSMtY0zoKQf/v226p2nyo=
+gopkg.in/yaml.v2 v2.2.7/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
