@@ -15,8 +15,7 @@ var (
 	entryConfigFileName       = "app.yaml"
 	developmentConfigFileName = "dev.yaml"
 	productionConfigFileName  = "prod.yaml"
-	// Config is a store of configurations
-	Config config
+	c                         config
 )
 
 type configError struct {
@@ -60,8 +59,7 @@ type config struct {
 	Configs map[string]interface{}
 }
 
-// GetString get a string type config value
-func (c *config) GetString(key string) (string, error) {
+func (c *config) getstring(key string) (string, error) {
 	switch v := c.Configs[key].(type) {
 	case string:
 		return v, nil
@@ -74,8 +72,7 @@ func (c *config) GetString(key string) (string, error) {
 	}
 }
 
-// GetInt get an int type config value
-func (c *config) GetInt(key string) (int, error) {
+func (c *config) getint(key string) (int, error) {
 	switch v := c.Configs[key].(type) {
 	case int32:
 		return int(v), nil
@@ -103,8 +100,7 @@ func (c *config) GetInt(key string) (int, error) {
 	}
 }
 
-// GetBool get a bool type config value
-func (c *config) GetBool(key string) (bool, error) {
+func (c *config) getbool(key string) (bool, error) {
 	switch v := c.Configs[key].(type) {
 	case string:
 		vb, err := strconv.ParseBool(v)
@@ -123,8 +119,7 @@ func (c *config) GetBool(key string) (bool, error) {
 	}
 }
 
-// GetFloat get a float64 type config value
-func (c *config) GetFloat(key string) (float64, error) {
+func (c *config) getfloat(key string) (float64, error) {
 	switch v := c.Configs[key].(type) {
 	case int32:
 		return float64(v), nil
@@ -150,6 +145,42 @@ func (c *config) GetFloat(key string) (float64, error) {
 
 		return 0, configError{Message: "config value is not a float value"}
 	}
+}
+
+// GetString get string config value
+func GetString(key string) string {
+	v, e := c.getstring(key)
+	if e != nil {
+		log.Errorln(e)
+	}
+	return v
+}
+
+// GetInt get int config value
+func GetInt(key string) int {
+	v, e := c.getint(key)
+	if e != nil {
+		log.Errorln(e)
+	}
+	return v
+}
+
+// GetBool get bool config value
+func GetBool(key string) bool {
+	v, e := c.getbool(key)
+	if e != nil {
+		log.Errorln(e)
+	}
+	return v
+}
+
+// GetFloat get float64 config value
+func GetFloat(key string) float64 {
+	v, e := c.getfloat(key)
+	if e != nil {
+		log.Errorln(e)
+	}
+	return v
 }
 
 // ReloadConfig reload config after customer configuration,
