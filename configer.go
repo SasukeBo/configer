@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	configFileDir             = "./conf"
+	configFileDir             = "./config"
 	entryConfigFileName       = "app.yaml"
 	developmentConfigFileName = "dev.yaml"
 	productionConfigFileName  = "prod.yaml"
