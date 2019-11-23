@@ -18,27 +18,27 @@ func TestGetRealConfigDir(t *testing.T) {
 }
 
 func TestConfigGet(t *testing.T) {
-	name, err := Config.GetString("name")
+	name, err := c.getstring("name")
 	if name != "sasukebo" || err != nil {
 		t.Errorf("get string config error; want: sasukebo, <nil>, get %s, %v", name, err)
 	}
 
-	age, err := Config.GetInt("age")
+	age, err := c.getint("age")
 	if age != 25 || err != nil {
 		t.Errorf("get int config error; want: 25, <nil>, get %d, %v", age, err)
 	}
 
-	man, err := Config.GetBool("man")
+	man, err := c.getbool("man")
 	if !man || err != nil {
 		t.Errorf("get bool config error; want: true, <nil>, get %v, %v", man, err)
 	}
 
-	vf, err := Config.GetFloat("afloat")
+	vf, err := c.getfloat("afloat")
 	if vf != 3.1415 || err != nil {
 		t.Errorf("get float64 config error; want: true, <nil>, get %f, %v", vf, err)
 	}
 
-	ep, err := Config.GetString("password")
+	ep, err := c.getstring("password")
 	if ep != "e23dsa3c9a7" || err != nil {
 		t.Errorf("get development config error; want: e23dsa3c9a7, <nil>, get %f, %v", vf, err)
 	}
@@ -51,7 +51,7 @@ func TestReloadConfig(t *testing.T) {
 		t.Errorf("reload config error; %v", err)
 	}
 
-	hobby, err := Config.GetString("hobby")
+	hobby, err := c.getstring("hobby")
 	if hobby != "coding" || err != nil {
 		t.Errorf("get reload config error; want: coding, <nil>, get %s, %v", hobby, err)
 	}

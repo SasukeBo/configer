@@ -205,11 +205,11 @@ func loadConfig() error {
 		return err
 	}
 
-	if err := yaml.Unmarshal([]byte(entry), &Config.Configs); err != nil {
+	if err := yaml.Unmarshal([]byte(entry), &c.Configs); err != nil {
 		return err
 	}
 
-	env, err := Config.GetString("env")
+	env, err := c.getstring("env")
 	if err != nil {
 		return err
 	}
@@ -236,7 +236,7 @@ func loadConfig() error {
 	}
 
 	for k, v := range envConfigs {
-		Config.Configs[k] = v
+		c.Configs[k] = v
 	}
 
 	return nil
