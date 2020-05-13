@@ -209,16 +209,18 @@ func loadConfig() error {
 		return err
 	}
 
-	env, err := c.getstring("env")
-	if err != nil {
-		return err
+	env := os.Getenv("env")
+	if env == "" {
+		if env, err = c.getstring("env"); err != nil {
+			return err
+		}
 	}
 
 	var filePath string
 	switch env {
-	case "dev":
+	case "dev", "DEV":
 		filePath = filepath.Join(path, configFileDir, developmentConfigFileName)
-	case "prod":
+	case "prod", "PROD":
 		filePath = filepath.Join(path, configFileDir, productionConfigFileName)
 	default:
 		return configError{Message: "unknown env"}
