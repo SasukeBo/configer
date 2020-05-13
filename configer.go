@@ -33,7 +33,7 @@ type config struct {
 func (c *config) getEnv(key string) interface{} {
 	v, ok := c.Configs[key]
 	if !ok {
-		panic(errors.New(fmt.Sprintf("env %s not found in your configuration", key)))
+		panic(errors.New(fmt.Sprintf("Missing [%s] in your configuration", key)))
 	}
 
 	return v
