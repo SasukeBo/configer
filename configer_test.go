@@ -1,7 +1,9 @@
 package configer
 
 import (
+	"fmt"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"testing"
 )
@@ -18,41 +20,33 @@ func TestGetRealConfigDir(t *testing.T) {
 }
 
 func TestConfigGet(t *testing.T) {
-	name, err := c.getstring("name")
-	if name != "sasukebo" || err != nil {
-		t.Errorf("get string config error; want: sasukebo, <nil>, get %s, %v", name, err)
+	name := GetEnv("name")
+	fmt.Println(name)
+	if _, ok := name.(string); !ok {
+		vt := reflect.TypeOf(name)
+		t.Errorf("expect string but got %s\n", vt.Name())
 	}
 
-	age, err := c.getint("age")
-	if age != 25 || err != nil {
-		t.Errorf("get int config error; want: 25, <nil>, get %d, %v", age, err)
+	boolV := GetEnv("bool")
+	fmt.Println(boolV)
+	if _, ok := boolV.(bool); !ok {
+		vt := reflect.TypeOf(boolV)
+		t.Errorf("expect bool but got %s\n", vt.Name())
 	}
 
-	man, err := c.getbool("man")
-	if !man || err != nil {
-		t.Errorf("get bool config error; want: true, <nil>, get %v, %v", man, err)
+	intV := GetEnv("int")
+	fmt.Println(intV)
+	if _, ok := intV.(int); !ok {
+		vt := reflect.TypeOf(intV)
+		t.Errorf("expect int but got %s\n", vt.Name())
 	}
 
-	vf, err := c.getfloat("afloat")
-	if vf != 3.1415 || err != nil {
-		t.Errorf("get float64 config error; want: true, <nil>, get %f, %v", vf, err)
+	floatV := GetEnv("float")
+	fmt.Println(floatV)
+	if _, ok := floatV.(float64); !ok {
+		vt := reflect.TypeOf(floatV)
+		t.Errorf("expect int but got %s\n", vt.Name())
 	}
 
-	ep, err := c.getstring("password")
-	if ep != "e23dsa3c9a7" || err != nil {
-		t.Errorf("get development config error; want: e23dsa3c9a7, <nil>, get %f, %v", vf, err)
-	}
-}
-
-func TestReloadConfig(t *testing.T) {
-	SetConfigFileDir("./conf")
-	err := ReloadConfig()
-	if err != nil {
-		t.Errorf("reload config error; %v", err)
-	}
-
-	hobby, err := c.getstring("hobby")
-	if hobby != "coding" || err != nil {
-		t.Errorf("get reload config error; want: coding, <nil>, get %s, %v", hobby, err)
-	}
+	GetEnv("hello")
 }
