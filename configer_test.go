@@ -47,6 +47,4 @@ func TestConfigGet(t *testing.T) {
 		vt := reflect.TypeOf(floatV)
 		t.Errorf("expect int but got %s\n", vt.Name())
 	}
-
-	GetEnv("hello")
 }

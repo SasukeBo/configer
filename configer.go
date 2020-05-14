@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -50,12 +51,25 @@ func loadConfig() {
 		panic(err)
 	}
 
-	entry, err := ioutil.ReadFile(filepath.Join(path, configFileDir, entryConfigFileName))
-	if err != nil {
-		panic(errors.New(fmt.Sprintf("read configuration from %s failed: %v", entryConfigFileName, err)))
+	nodes := strings.Split(path, "/")
+
+	var entry []byte
+	var directory string
+	for i:= len(nodes); i > 0 ; i-- {
+		path := strings.Join(nodes[0:i], "/")
+		binary, err := ioutil.ReadFile(filepath.Join(path, configFileDir, entryConfigFileName))
+		if err == nil {
+			entry = binary
+			directory = path
+			break
+		}
 	}
 
-	if err := yaml.Unmarshal([]byte(entry), &c.Configs); err != nil {
+	if len(entry) == 0 {
+		panic(errors.New(fmt.Sprintf("read configuration from %s failed, file missing.", entryConfigFileName)))
+	}
+
+	if err := yaml.Unmarshal(entry, &c.Configs); err != nil {
 		panic(err)
 	}
 
@@ -67,9 +81,9 @@ func loadConfig() {
 	var filePath string
 	switch env {
 	case "prod", "PROD":
-		filePath = filepath.Join(path, configFileDir, productionConfigFileName)
+		filePath = filepath.Join(directory, configFileDir, productionConfigFileName)
 	default: // 默认取dev环境
-		filePath = filepath.Join(path, configFileDir, developmentConfigFileName)
+		filePath = filepath.Join(directory, configFileDir, developmentConfigFileName)
 	}
 
 	content, err := ioutil.ReadFile(filePath)
