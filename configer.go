@@ -13,6 +13,7 @@ import (
 var (
 	configFileDir             = "./config"
 	entryConfigFileName       = "app.yaml"
+	testConfigFileName        = "test.yaml"
 	developmentConfigFileName = "dev.yaml"
 	productionConfigFileName  = "prod.yaml"
 	c                         config
@@ -55,7 +56,7 @@ func loadConfig() {
 
 	var entry []byte
 	var directory string
-	for i:= len(nodes); i > 0 ; i-- {
+	for i := len(nodes); i > 0; i-- {
 		path := strings.Join(nodes[0:i], "/")
 		binary, err := ioutil.ReadFile(filepath.Join(path, configFileDir, entryConfigFileName))
 		if err == nil {
@@ -74,14 +75,22 @@ func loadConfig() {
 	}
 
 	env := os.Getenv("ENV")
+
+	if len(os.Args) > 1 && strings.Contains(os.Args[1], "test") {
+		env = "test"
+	}
+
 	if env == "" {
 		env = fmt.Sprint(c.getEnv("env"))
 	}
+	c.Configs["env"] = env
 
 	var filePath string
 	switch env {
 	case "prod", "PROD":
 		filePath = filepath.Join(directory, configFileDir, productionConfigFileName)
+	case "test", "TEST":
+		filePath = filepath.Join(directory, configFileDir, testConfigFileName)
 	default: // 默认取dev环境
 		filePath = filepath.Join(directory, configFileDir, developmentConfigFileName)
 	}
