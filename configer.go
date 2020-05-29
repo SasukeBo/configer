@@ -63,12 +63,7 @@ func GetBool(key string) bool {
 
 // GetString get string config value
 func GetString(key string) string {
-	v := c.getEnv(key)
-	s, ok := v.(string)
-	if !ok {
-		panic(errors.New(fmt.Sprintf("Value of [%s] is not string type", key)))
-	}
-	return s
+	return fmt.Sprint(c.getEnv(key))
 }
 
 // GetEnv get interface config value
