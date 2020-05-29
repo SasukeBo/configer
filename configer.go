@@ -13,7 +13,7 @@ import (
 var (
 	configFileDir             = "./config"
 	entryConfigFileName       = "app.yaml"
-	testConfigFileName        = "test.yaml"
+	testConfigFileName        = "intergration_test.yaml"
 	developmentConfigFileName = "dev.yaml"
 	productionConfigFileName  = "prod.yaml"
 	c                         config
@@ -41,7 +41,37 @@ func (c *config) getEnv(key string) interface{} {
 	return v
 }
 
-// GetEnv get string config value
+// GetInt get int config value
+func GetInt(key string) int {
+	v := c.getEnv(key)
+	b, ok := v.(int)
+	if !ok {
+		panic(errors.New(fmt.Sprintf("Value of [%s] is not int type", key)))
+	}
+	return b
+}
+
+// GetBool get bool config value
+func GetBool(key string) bool {
+	v := c.getEnv(key)
+	b, ok := v.(bool)
+	if !ok {
+		panic(errors.New(fmt.Sprintf("Value of [%s] is not bool type", key)))
+	}
+	return b
+}
+
+// GetString get string config value
+func GetString(key string) string {
+	v := c.getEnv(key)
+	s, ok := v.(string)
+	if !ok {
+		panic(errors.New(fmt.Sprintf("Value of [%s] is not string type", key)))
+	}
+	return s
+}
+
+// GetEnv get interface config value
 func GetEnv(key string) interface{} {
 	return c.getEnv(key)
 }
@@ -76,8 +106,8 @@ func loadConfig() {
 
 	env := os.Getenv("ENV")
 
-	if len(os.Args) > 1 && strings.Contains(os.Args[1], "test") {
-		env = "test"
+	if env == "" && len(os.Args) > 1 && strings.Contains(os.Args[1], "test") {
+		env = "TEST"
 	}
 
 	if env == "" {
