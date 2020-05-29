@@ -13,7 +13,7 @@ import (
 var (
 	configFileDir             = "./config"
 	entryConfigFileName       = "app.yaml"
-	testConfigFileName        = "intergration_test.yaml"
+	testConfigFileName        = "test.yaml"
 	developmentConfigFileName = "dev.yaml"
 	productionConfigFileName  = "prod.yaml"
 	c                         config
